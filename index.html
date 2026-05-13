@@ -151,19 +151,19 @@ const TARIFS = ["Cuve complète","Groupage"];
 const REF_RENDEMENTS = {Pomme:68,Poire:65,Cerise:72,Abricot:60,Prune:58,Kaki:55};
 
 let receptions = [
-  {id:1,date:"2024-09-03",client:"Christophe (Vergers & Cie)",fruit:"Pomme",qte:13,destination:"Prestation",tarif:"Groupage",fabId:1},
-  {id:2,date:"2024-09-03",client:"GAEC Épisse",fruit:"Pomme",qte:8,destination:"Prestation",tarif:"Groupage",fabId:1},
-  {id:3,date:"2024-09-10",client:"Régis Recicaud (Delifruit)",fruit:"Poire",qte:25,destination:"Prestation",tarif:"Cuve complète",fabId:2},
-  {id:4,date:"2024-10-01",client:"Christophe (Vergers & Cie)",fruit:"Cerise",qte:15,destination:"Prestation",tarif:"Cuve complète",fabId:3},
-  {id:5,date:"2024-10-12",client:"Bernard Mercier",fruit:"Pomme",qte:20,destination:"Vente interne",tarif:"Cuve complète",fabId:null},
-  {id:6,date:"2024-11-05",client:"GAEC Épisse",fruit:"Kaki",qte:5,destination:"Prestation",tarif:"Cuve complète",fabId:4},
+  {id:1,date:"2024-09-03",client:"Christophe (Vergers & Cie)",fruit:"Pomme",qte:7,destination:"Prestation",tarif:"Groupage",fabId:1},
+  {id:2,date:"2024-09-03",client:"GAEC Épisse",fruit:"Pomme",qte:3.5,destination:"Prestation",tarif:"Groupage",fabId:1},
+  {id:3,date:"2024-09-10",client:"Régis Recicaud (Delifruit)",fruit:"Poire",qte:10.5,destination:"Prestation",tarif:"Cuve complète",fabId:2},
+  {id:4,date:"2024-10-01",client:"Christophe (Vergers & Cie)",fruit:"Cerise",qte:10.5,destination:"Prestation",tarif:"Cuve complète",fabId:3},
+  {id:5,date:"2024-10-12",client:"Bernard Mercier",fruit:"Pomme",qte:10.5,destination:"Vente interne",tarif:"Cuve complète",fabId:null},
+  {id:6,date:"2024-11-05",client:"GAEC Épisse",fruit:"Kaki",qte:10.5,destination:"Prestation",tarif:"Cuve complète",fabId:4},
 ];
 
 let fabrications = [
-  {id:1,date:"2024-09-05",produit:"Jus de pomme",volume:10.5,tarif:"Groupage",contributeurs:[{client:"Christophe (Vergers & Cie)",qte:7},{client:"GAEC Épisse",qte:3.5}]},
-  {id:2,date:"2024-09-12",produit:"Jus de poire",volume:10.5,tarif:"Cuve complète",contributeurs:[{client:"Régis Recicaud (Delifruit)",qte:25}]},
-  {id:3,date:"2024-10-03",produit:"Jus de cerise",volume:10.5,tarif:"Cuve complète",contributeurs:[{client:"Christophe (Vergers & Cie)",qte:15}]},
-  {id:4,date:"2024-11-07",produit:"Jus de kaki",volume:10.5,tarif:"Cuve complète",contributeurs:[{client:"GAEC Épisse",qte:5}]},
+  {id:1,date:"2024-09-05",produit:"Jus de pomme",volume:7.35,tarif:"Groupage",contributeurs:[{client:"Christophe (Vergers & Cie)",qte:7},{client:"GAEC Épisse",qte:3.5}]},
+  {id:2,date:"2024-09-12",produit:"Jus de poire",volume:7.14,tarif:"Cuve complète",contributeurs:[{client:"Régis Recicaud (Delifruit)",qte:10.5}]},
+  {id:3,date:"2024-10-03",produit:"Jus de cerise",volume:6.825,tarif:"Cuve complète",contributeurs:[{client:"Christophe (Vergers & Cie)",qte:10.5}]},
+  {id:4,date:"2024-11-07",produit:"Jus de kaki",volume:7.5,tarif:"Cuve complète",contributeurs:[{client:"GAEC Épisse",qte:10.5}]},
 ];
 
 let modalMode = null;
