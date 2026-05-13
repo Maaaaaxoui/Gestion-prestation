@@ -1,0 +1,457 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);font-size:14px;color:var(--color-text-primary)}
+.app{display:flex;height:620px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.sidebar{width:190px;flex-shrink:0;background:var(--color-background-secondary);border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;padding:12px 8px}
+.sidebar-title{font-size:11px;color:var(--color-text-tertiary);padding:4px 8px 8px;text-transform:uppercase;letter-spacing:.06em}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--border-radius-md);cursor:pointer;font-size:13px;color:var(--color-text-secondary);transition:background .15s}
+.nav-item:hover{background:var(--color-background-primary)}
+.nav-item.active{background:var(--color-background-primary);color:var(--color-text-primary);font-weight:500}
+.nav-item i{font-size:16px}
+.content{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.topbar{padding:14px 20px 10px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:space-between}
+.topbar-title{font-size:16px;font-weight:500}
+.page{flex:1;overflow-y:auto;padding:20px}
+.hidden{display:none!important}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;cursor:pointer;font-size:13px;color:var(--color-text-primary);font-family:var(--font-sans)}
+.btn:hover{background:var(--color-background-secondary)}
+.btn-primary{background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info)}
+.btn-primary:hover{opacity:.85}
+.btn-danger{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+label{font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:4px}
+input,select,textarea{width:100%;padding:7px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;background:var(--color-background-primary);color:var(--color-text-primary);font-family:var(--font-sans)}
+input:focus,select:focus{outline:none;border-color:var(--color-border-primary)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:4px}
+.field.span2{grid-column:span 2}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;margin-bottom:14px}
+.card-title{font-size:13px;font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.badge{display:inline-block;padding:2px 8px;border-radius:var(--border-radius-md);font-size:11px;font-weight:500}
+.badge-prestation{background:var(--color-background-info);color:var(--color-text-info)}
+.badge-vente{background:var(--color-background-success);color:var(--color-text-success)}
+.badge-ok{background:var(--color-background-success);color:var(--color-text-success)}
+.badge-warn{background:var(--color-background-warning);color:var(--color-text-warning)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;color:var(--color-text-secondary);font-weight:500;padding:6px 10px;border-bottom:0.5px solid var(--color-border-tertiary);white-space:nowrap}
+td{padding:8px 10px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--color-background-secondary)}
+.metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px}
+.metric-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.metric-val{font-size:22px;font-weight:500}
+.metric-sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.alert-box{padding:10px 14px;border-radius:var(--border-radius-md);font-size:13px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.alert-info{background:var(--color-background-info);color:var(--color-text-info);border:0.5px solid var(--color-border-info)}
+.alert-success{background:var(--color-background-success);color:var(--color-text-success);border:0.5px solid var(--color-border-success)}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:14px 0}
+.row-actions{display:flex;gap:6px}
+.tag{font-size:11px;padding:1px 6px;border-radius:4px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
+.rendement-bar{height:6px;border-radius:3px;background:var(--color-background-secondary);margin-top:4px;overflow:hidden}
+.rendement-fill{height:100%;border-radius:3px}
+.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:100;border-radius:var(--border-radius-lg)}
+.modal{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-secondary);padding:22px;width:480px;max-height:520px;overflow-y:auto}
+.modal-title{font-size:15px;font-weight:500;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.section-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-tertiary);margin:14px 0 8px}
+.link{color:var(--color-text-info);cursor:pointer;font-size:13px;text-decoration:underline}
+</style>
+
+<h2 class="sr-only">Application de gestion de la prestation de transformation — Maison Patrick Font</h2>
+
+<div class="app" style="position:relative" id="app">
+
+<div class="sidebar">
+  <div class="sidebar-title">Patrick Font</div>
+  <div class="nav-item active" onclick="showPage('receptions')" id="nav-receptions">
+    <i class="ti ti-truck-delivery" aria-hidden="true"></i> Réceptions
+  </div>
+  <div class="nav-item" onclick="showPage('fabrications')" id="nav-fabrications">
+    <i class="ti ti-flask" aria-hidden="true"></i> Fabrications
+  </div>
+  <div class="nav-item" onclick="showPage('clients')" id="nav-clients">
+    <i class="ti ti-users" aria-hidden="true"></i> Clients
+  </div>
+  <div class="nav-item" onclick="showPage('rendements')" id="nav-rendements">
+    <i class="ti ti-chart-bar" aria-hidden="true"></i> Rendements
+  </div>
+  <div style="flex:1"></div>
+  <div style="font-size:11px;color:var(--color-text-tertiary);padding:8px">Base locale — 2024</div>
+</div>
+
+<div class="content">
+
+<div class="topbar">
+  <span class="topbar-title" id="page-title">Réceptions de matière</span>
+  <button class="btn btn-primary" id="topbar-btn" onclick="openModal()"><i class="ti ti-plus" aria-hidden="true"></i> Nouvelle réception</button>
+</div>
+
+<div class="page" id="page-receptions">
+  <div class="alert-info alert-box">
+    <i class="ti ti-info-circle" aria-hidden="true"></i>
+    <span>Chaque réception est qualifiée : <strong>prestation</strong> (jus pour le client) ou <strong>vente interne</strong>. Cela permet de tracer chaque lot dans EBP.</span>
+  </div>
+  <div class="card">
+    <table id="table-receptions">
+      <thead><tr>
+        <th>Date</th><th>Client</th><th>Fruit</th><th>Quantité (t)</th><th>Destination</th><th>Tarif</th><th>Lié à fab.</th>
+      </tr></thead>
+      <tbody id="tbody-receptions"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page hidden" id="page-fabrications">
+  <div class="alert-info alert-box">
+    <i class="ti ti-info-circle" aria-hidden="true"></i>
+    <span>Chaque fiche de fabrication liste les clients-fournisseurs de matière, avec leurs quantités respectives — résolvant le problème de correspondance EBP.</span>
+  </div>
+  <div class="card">
+    <table id="table-fabrications">
+      <thead><tr>
+        <th>Date</th><th>Produit</th><th>Volume produit (kL)</th><th>Clients contributeurs</th><th>Tarif</th><th>Détail</th>
+      </tr></thead>
+      <tbody id="tbody-fabrications"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="page hidden" id="page-clients">
+  <div id="clients-list"></div>
+</div>
+
+<div class="page hidden" id="page-rendements">
+  <div class="metric-row" id="metrics-row"></div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-chart-bar" aria-hidden="true"></i> Rendements réels par client</div>
+    <table>
+      <thead><tr><th>Client</th><th>Fruit</th><th>Matière (t)</th><th>Jus (kL)</th><th>Rendement réel</th><th>Réf. théorique</th><th>Écart</th></tr></thead>
+      <tbody id="tbody-rendements"></tbody>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-info-circle" aria-hidden="true"></i> Problème EBP — avant cet outil</div>
+    <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6">Sans liaison entre les rubriques EBP, il était impossible d'associer un bon de réception à un bon de fabrication avec certitude. Avec cet outil, chaque fabrication référence explicitement les clients contributeurs et leurs quantités, rendant le calcul du rendement réel fiable et automatique.</p>
+  </div>
+</div>
+
+</div>
+
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+</div>
+
+<script>
+const CLIENTS = ["Christophe (Vergers & Cie)","Régis Recicaud (Delifruit)","GAEC Épisse","Bernard Mercier","Sophie Aubert"];
+const FRUITS = ["Pomme","Poire","Cerise","Abricot","Prune","Kaki"];
+const TARIFS = ["Cuve complète","Groupage"];
+const REF_RENDEMENTS = {Pomme:68,Poire:65,Cerise:72,Abricot:60,Prune:58,Kaki:55};
+
+let receptions = [
+  {id:1,date:"2024-09-03",client:"Christophe (Vergers & Cie)",fruit:"Pomme",qte:13,destination:"Prestation",tarif:"Groupage",fabId:1},
+  {id:2,date:"2024-09-03",client:"GAEC Épisse",fruit:"Pomme",qte:8,destination:"Prestation",tarif:"Groupage",fabId:1},
+  {id:3,date:"2024-09-10",client:"Régis Recicaud (Delifruit)",fruit:"Poire",qte:25,destination:"Prestation",tarif:"Cuve complète",fabId:2},
+  {id:4,date:"2024-10-01",client:"Christophe (Vergers & Cie)",fruit:"Cerise",qte:15,destination:"Prestation",tarif:"Cuve complète",fabId:3},
+  {id:5,date:"2024-10-12",client:"Bernard Mercier",fruit:"Pomme",qte:20,destination:"Vente interne",tarif:"Cuve complète",fabId:null},
+  {id:6,date:"2024-11-05",client:"GAEC Épisse",fruit:"Kaki",qte:5,destination:"Prestation",tarif:"Cuve complète",fabId:4},
+];
+
+let fabrications = [
+  {id:1,date:"2024-09-05",produit:"Jus de pomme",volume:14.1,tarif:"Groupage",contributeurs:[{client:"Christophe (Vergers & Cie)",qte:13},{client:"GAEC Épisse",qte:8}]},
+  {id:2,date:"2024-09-12",produit:"Jus de poire",volume:16.3,tarif:"Cuve complète",contributeurs:[{client:"Régis Recicaud (Delifruit)",qte:25}]},
+  {id:3,date:"2024-10-03",produit:"Jus de cerise",volume:10.8,tarif:"Cuve complète",contributeurs:[{client:"Christophe (Vergers & Cie)",qte:15}]},
+  {id:4,date:"2024-11-07",produit:"Jus de kaki",volume:2.75,tarif:"Cuve complète",contributeurs:[{client:"GAEC Épisse",qte:5}]},
+];
+
+let modalMode = null;
+let detailFab = null;
+
+function showPage(p){
+  ["receptions","fabrications","clients","rendements"].forEach(x=>{
+    document.getElementById("page-"+x).classList.toggle("hidden",x!==p);
+    document.getElementById("nav-"+x).classList.toggle("active",x===p);
+  });
+  const titles={receptions:"Réceptions de matière",fabrications:"Fabrications",clients:"Fiches clients",rendements:"Analyse des rendements"};
+  document.getElementById("page-title").textContent=titles[p];
+  const btns={receptions:"Nouvelle réception",fabrications:"Nouvelle fabrication",clients:null,rendements:null};
+  const btn=document.getElementById("topbar-btn");
+  if(btns[p]){btn.style.display="";btn.innerHTML=`<i class="ti ti-plus" aria-hidden="true"></i> ${btns[p]}`;btn.onclick=openModal;}
+  else btn.style.display="none";
+  if(p==="receptions")renderReceptions();
+  if(p==="fabrications")renderFabrications();
+  if(p==="clients")renderClients();
+  if(p==="rendements")renderRendements();
+}
+
+function renderReceptions(){
+  const tbody=document.getElementById("tbody-receptions");
+  tbody.innerHTML="";
+  receptions.forEach(r=>{
+    const tr=document.createElement("tr");
+    const linked=r.fabId?`<span class="badge badge-ok"><i class="ti ti-check" style="font-size:11px"></i> Fab #${r.fabId}</span>`:`<span class="badge badge-warn">Non lié</span>`;
+    tr.innerHTML=`<td>${r.date}</td><td>${r.client.split("(")[0].trim()}</td><td>${r.fruit}</td><td><strong>${r.qte}</strong></td><td><span class="badge ${r.destination==="Prestation"?"badge-prestation":"badge-vente"}">${r.destination}</span></td><td><span class="tag">${r.tarif}</span></td><td>${linked}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderFabrications(){
+  const tbody=document.getElementById("tbody-fabrications");
+  tbody.innerHTML="";
+  fabrications.forEach(f=>{
+    const c=f.contributeurs.map(x=>`${x.client.split("(")[0].trim()} (${x.qte}t)`).join(", ");
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${f.date}</td><td>${f.produit}</td><td><strong>${f.volume}</strong> kL</td><td style="font-size:12px;max-width:180px">${c}</td><td><span class="tag">${f.tarif}</span></td><td><span class="link" onclick="showFabDetail(${f.id})">Voir fiche</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function calcRendementsParClient(){
+  const map={};
+  fabrications.forEach(f=>{
+    const fruit=f.produit.replace("Jus de ","").charAt(0).toUpperCase()+f.produit.replace("Jus de ","").slice(1);
+    const totalQte=f.contributeurs.reduce((s,c)=>s+c.qte,0);
+    f.contributeurs.forEach(c=>{
+      const key=c.client+"|"+fruit;
+      if(!map[key])map[key]={client:c.client,fruit,matiere:0,jus:0};
+      const part=totalQte>0?c.qte/totalQte:0;
+      map[key].matiere+=c.qte;
+      map[key].jus+=part*f.volume;
+    });
+  });
+  return Object.values(map);
+}
+
+function renderRendements(){
+  const data=calcRendementsParClient();
+  const totalMat=receptions.filter(r=>r.destination==="Prestation").reduce((s,r)=>s+r.qte,0);
+  const totalJus=fabrications.reduce((s,f)=>s+f.volume,0);
+  const row=document.getElementById("metrics-row");
+  row.innerHTML=`
+    <div class="metric"><div class="metric-label">Clients en prestation</div><div class="metric-val">${new Set(data.map(d=>d.client)).size}</div><div class="metric-sub">actifs cette saison</div></div>
+    <div class="metric"><div class="metric-label">Matière totale</div><div class="metric-val">${totalMat} t</div><div class="metric-sub">en prestation</div></div>
+    <div class="metric"><div class="metric-label">Jus produit total</div><div class="metric-val">${totalJus.toFixed(1)} kL</div><div class="metric-sub">toutes fabrications</div></div>
+  `;
+  const tbody=document.getElementById("tbody-rendements");
+  tbody.innerHTML="";
+  data.forEach(d=>{
+    const r=d.matiere>0?(d.jus/d.matiere*100):0;
+    const ref=REF_RENDEMENTS[d.fruit]||65;
+    const ecart=r-ref;
+    const color=ecart>=0?"var(--color-text-success)":"var(--color-text-danger)";
+    const barColor=ecart>=0?"#3B6D11":"#A32D2D";
+    const pct=Math.min(r,100);
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td>${d.client.split("(")[0].trim()}</td>
+      <td>${d.fruit}</td>
+      <td>${d.matiere.toFixed(1)}</td>
+      <td>${d.jus.toFixed(1)}</td>
+      <td>
+        <strong>${r.toFixed(1)}%</strong>
+        <div class="rendement-bar"><div class="rendement-fill" style="width:${pct}%;background:${barColor}"></div></div>
+      </td>
+      <td style="color:var(--color-text-secondary)">${ref}%</td>
+      <td style="color:${color};font-weight:500">${ecart>=0?"+":""}${ecart.toFixed(1)} pts</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderClients(){
+  const container=document.getElementById("clients-list");
+  const rends=calcRendementsParClient();
+  const byClient={};
+  receptions.forEach(r=>{if(!byClient[r.client])byClient[r.client]={recs:[],fab:[]};byClient[r.client].recs.push(r);});
+  fabrications.forEach(f=>{f.contributeurs.forEach(c=>{if(byClient[c.client])byClient[c.client].fab.push(f);});});
+  
+  container.innerHTML="";
+  CLIENTS.forEach(cl=>{
+    if(!byClient[cl])return;
+    const recs=byClient[cl].recs;
+    const fabs=[...new Set(byClient[cl].fab.map(f=>f.id))].map(id=>byClient[cl].fab.find(f=>f.id===id));
+    const myRends=rends.filter(d=>d.client===cl);
+    const totalMat=recs.filter(r=>r.destination==="Prestation").reduce((s,r)=>s+r.qte,0);
+    const totalJus=myRends.reduce((s,d)=>s+d.jus,0);
+    const globalR=totalMat>0?(totalJus/totalMat*100):0;
+    const initials=cl.split(" ").slice(0,2).map(w=>w[0]).join("").toUpperCase();
+    
+    const div=document.createElement("div");
+    div.className="card";
+    div.innerHTML=`
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--color-background-info);display:flex;align-items:center;justify-content:center;font-weight:500;font-size:14px;color:var(--color-text-info);flex-shrink:0">${initials}</div>
+        <div>
+          <p style="font-weight:500;font-size:14px">${cl.split("(")[0].trim()}</p>
+          <p style="font-size:12px;color:var(--color-text-secondary)">${cl.match(/\(([^)]+)\)/)?.[1]||""}</p>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <p style="font-size:20px;font-weight:500">${globalR>0?globalR.toFixed(1)+"%":"—"}</p>
+          <p style="font-size:11px;color:var(--color-text-secondary)">rendement moyen</p>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+        <div class="metric"><div class="metric-label">Réceptions</div><div class="metric-val" style="font-size:18px">${recs.length}</div></div>
+        <div class="metric"><div class="metric-label">Matière (t)</div><div class="metric-val" style="font-size:18px">${recs.reduce((s,r)=>s+r.qte,0)}</div></div>
+        <div class="metric"><div class="metric-label">Fabrications</div><div class="metric-val" style="font-size:18px">${fabs.length}</div></div>
+      </div>
+      <div class="section-label">Réceptions</div>
+      <table style="width:100%">
+        <thead><tr><th>Date</th><th>Fruit</th><th>Quantité</th><th>Destination</th><th>Tarif</th></tr></thead>
+        <tbody>${recs.map(r=>`<tr><td>${r.date}</td><td>${r.fruit}</td><td>${r.qte} t</td><td><span class="badge ${r.destination==="Prestation"?"badge-prestation":"badge-vente"}">${r.destination}</span></td><td><span class="tag">${r.tarif}</span></td></tr>`).join("")}</tbody>
+      </table>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function showFabDetail(id){
+  const f=fabrications.find(x=>x.id===id);
+  if(!f)return;
+  const totalQte=f.contributeurs.reduce((s,c)=>s+c.qte,0);
+  const fruit=f.produit.replace("Jus de ","").charAt(0).toUpperCase()+f.produit.replace("Jus de ","").slice(1);
+  const ref=REF_RENDEMENTS[fruit]||65;
+  const rows=f.contributeurs.map(c=>{
+    const part=totalQte>0?c.qte/totalQte:0;
+    const jusPart=part*f.volume;
+    const r=c.qte>0?(jusPart/c.qte*100):0;
+    const ecart=r-ref;
+    const col=ecart>=0?"var(--color-text-success)":"var(--color-text-danger)";
+    return `<tr>
+      <td>${c.client.split("(")[0].trim()}</td>
+      <td>${c.qte} t</td>
+      <td>${(part*100).toFixed(0)}%</td>
+      <td>${jusPart.toFixed(2)} kL</td>
+      <td style="color:${col};font-weight:500">${r.toFixed(1)}%</td>
+    </tr>`;
+  }).join("");
+
+  document.getElementById("modal-content").innerHTML=`
+    <div class="modal-title">
+      <span>Fiche fabrication — ${f.produit}</span>
+      <button class="btn" onclick="closeModal()" aria-label="Fermer"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>Date</label><input type="text" value="${f.date}" readonly></div>
+      <div class="field"><label>Volume produit</label><input type="text" value="${f.volume} kL" readonly></div>
+      <div class="field"><label>Tarif</label><input type="text" value="${f.tarif}" readonly></div>
+      <div class="field"><label>Clients contributeurs</label><input type="text" value="${f.contributeurs.length}" readonly></div>
+    </div>
+    <div class="section-label">Contribution par client — résolution du problème EBP</div>
+    <table>
+      <thead><tr><th>Client</th><th>Matière</th><th>Part</th><th>Jus attribué</th><th>Rendement</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div style="margin-top:14px;padding:10px 14px;background:var(--color-background-success);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-success)">
+      <i class="ti ti-check" aria-hidden="true"></i> Cette fiche associe explicitement chaque client à la matière apportée, rendant le calcul de rendement individuel possible — même en tarif groupage.
+    </div>
+  `;
+  document.getElementById("modal-overlay").classList.remove("hidden");
+}
+
+function openModal(){
+  const current=document.querySelector(".nav-item.active").id.replace("nav-","");
+  if(current==="receptions"){
+    document.getElementById("modal-content").innerHTML=`
+      <div class="modal-title">
+        <span>Nouvelle réception</span>
+        <button class="btn" onclick="closeModal()" aria-label="Fermer"><i class="ti ti-x" aria-hidden="true"></i></button>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>Date</label><input type="date" id="f-date" value="2024-11-15"></div>
+        <div class="field"><label>Client</label><select id="f-client">${CLIENTS.map(c=>`<option>${c}</option>`).join("")}</select></div>
+        <div class="field"><label>Fruit</label><select id="f-fruit">${FRUITS.map(f=>`<option>${f}</option>`).join("")}</select></div>
+        <div class="field"><label>Quantité (tonnes)</label><input type="number" id="f-qte" value="10" min="0" step="0.5"></div>
+        <div class="field"><label>Destination <strong style="color:var(--color-text-info)">★ nouveau champ</strong></label><select id="f-dest"><option>Prestation</option><option>Vente interne</option></select></div>
+        <div class="field"><label>Tarif</label><select id="f-tarif">${TARIFS.map(t=>`<option>${t}</option>`).join("")}</select></div>
+      </div>
+      <div class="alert-info alert-box" style="margin-bottom:14px">
+        <i class="ti ti-info-circle" aria-hidden="true"></i> Le champ "Destination" est la clé manquante dans EBP : il permet de tracer si la matière est pour la prestation ou non.
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn" onclick="closeModal()">Annuler</button>
+        <button class="btn btn-primary" onclick="saveReception()"><i class="ti ti-check" aria-hidden="true"></i> Enregistrer</button>
+      </div>
+    `;
+  } else {
+    document.getElementById("modal-content").innerHTML=`
+      <div class="modal-title">
+        <span>Nouvelle fabrication</span>
+        <button class="btn" onclick="closeModal()" aria-label="Fermer"><i class="ti ti-x" aria-hidden="true"></i></button>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>Date</label><input type="date" id="f-date" value="2024-11-17"></div>
+        <div class="field"><label>Produit</label><select id="f-produit">${FRUITS.map(f=>`<option>Jus de ${f.toLowerCase()}</option>`).join("")}</select></div>
+        <div class="field"><label>Volume produit (kL)</label><input type="number" id="f-vol" value="8.5" step="0.1"></div>
+        <div class="field"><label>Tarif</label><select id="f-tarif">${TARIFS.map(t=>`<option>${t}</option>`).join("")}</select></div>
+      </div>
+      <div class="section-label">Clients contributeurs <strong style="color:var(--color-text-info)">★ liaison explicite</strong></div>
+      <div id="contrib-list">
+        <div class="form-grid cols3" style="margin-bottom:8px">
+          <div class="field"><label>Client</label><select class="c-client">${CLIENTS.map(c=>`<option>${c}</option>`).join("")}</select></div>
+          <div class="field"><label>Quantité (t)</label><input type="number" class="c-qte" value="10" step="0.5"></div>
+          <div class="field" style="justify-content:flex-end;padding-top:20px"><button class="btn" onclick="addContrib()"><i class="ti ti-plus" aria-hidden="true"></i> Ajouter</button></div>
+        </div>
+      </div>
+      <div class="alert-info alert-box" style="margin:10px 0">
+        <i class="ti ti-info-circle" aria-hidden="true"></i> La liaison client → fabrication résout le problème de correspondance EBP : on sait exactement qui a fourni quoi.
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn" onclick="closeModal()">Annuler</button>
+        <button class="btn btn-primary" onclick="saveFabrication()"><i class="ti ti-check" aria-hidden="true"></i> Enregistrer</button>
+      </div>
+    `;
+  }
+  document.getElementById("modal-overlay").classList.remove("hidden");
+}
+
+function addContrib(){
+  const list=document.getElementById("contrib-list");
+  const div=document.createElement("div");
+  div.className="form-grid cols3";
+  div.style.marginBottom="8px";
+  div.innerHTML=`<div class="field"><label>Client</label><select class="c-client">${CLIENTS.map(c=>`<option>${c}</option>`).join("")}</select></div><div class="field"><label>Quantité (t)</label><input type="number" class="c-qte" value="8" step="0.5"></div><div class="field" style="justify-content:flex-end;padding-top:20px"><button class="btn btn-danger" onclick="this.closest('.form-grid').remove()"><i class="ti ti-trash" aria-hidden="true"></i></button></div>`;
+  list.appendChild(div);
+}
+
+function saveReception(){
+  const newR={
+    id:receptions.length+1,
+    date:document.getElementById("f-date").value,
+    client:document.getElementById("f-client").value,
+    fruit:document.getElementById("f-fruit").value,
+    qte:parseFloat(document.getElementById("f-qte").value),
+    destination:document.getElementById("f-dest").value,
+    tarif:document.getElementById("f-tarif").value,
+    fabId:null
+  };
+  receptions.push(newR);
+  closeModal();
+  renderReceptions();
+}
+
+function saveFabrication(){
+  const contrib=[...document.querySelectorAll("#contrib-list .form-grid")].map(row=>({
+    client:row.querySelector(".c-client").value,
+    qte:parseFloat(row.querySelector(".c-qte").value)
+  }));
+  const newF={
+    id:fabrications.length+1,
+    date:document.getElementById("f-date").value,
+    produit:document.getElementById("f-produit").value.charAt(0).toUpperCase()+document.getElementById("f-produit").value.slice(1),
+    volume:parseFloat(document.getElementById("f-vol").value),
+    tarif:document.getElementById("f-tarif").value,
+    contributeurs:contrib
+  };
+  fabrications.push(newF);
+  closeModal();
+  renderFabrications();
+}
+
+function closeModal(){document.getElementById("modal-overlay").classList.add("hidden");}
+document.getElementById("modal-overlay").addEventListener("click",function(e){if(e.target===this)closeModal();});
+
+renderReceptions();
+</script>
