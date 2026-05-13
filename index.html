@@ -90,7 +90,7 @@ tr:hover td{background:var(--color-background-secondary)}
 <div class="page" id="page-receptions">
   <div class="alert-info alert-box">
     <i class="ti ti-info-circle" aria-hidden="true"></i>
-    <span>Chaque réception est qualifiée : <strong>prestation</strong> (jus pour le client) ou <strong>vente interne</strong>. Cela permet de tracer chaque lot dans EBP.</span>
+    <span>Chaque réception est qualifiée : <strong>prestation</strong> (jus pour le client) ou <strong>vente directe</strong>. Cela permet de tracer chaque lot dans EBP.</span>
   </div>
   <div class="card">
     <table id="table-receptions">
@@ -160,10 +160,10 @@ let receptions = [
 ];
 
 let fabrications = [
-  {id:1,date:"2024-09-05",produit:"Jus de pomme",volume:14.1,tarif:"Groupage",contributeurs:[{client:"Christophe (Vergers & Cie)",qte:13},{client:"GAEC Épisse",qte:8}]},
-  {id:2,date:"2024-09-12",produit:"Jus de poire",volume:16.3,tarif:"Cuve complète",contributeurs:[{client:"Régis Recicaud (Delifruit)",qte:25}]},
-  {id:3,date:"2024-10-03",produit:"Jus de cerise",volume:10.8,tarif:"Cuve complète",contributeurs:[{client:"Christophe (Vergers & Cie)",qte:15}]},
-  {id:4,date:"2024-11-07",produit:"Jus de kaki",volume:2.75,tarif:"Cuve complète",contributeurs:[{client:"GAEC Épisse",qte:5}]},
+  {id:1,date:"2024-09-05",produit:"Jus de pomme",volume:10.5,tarif:"Groupage",contributeurs:[{client:"Christophe (Vergers & Cie)",qte:7},{client:"GAEC Épisse",qte:3.5}]},
+  {id:2,date:"2024-09-12",produit:"Jus de poire",volume:10.5,tarif:"Cuve complète",contributeurs:[{client:"Régis Recicaud (Delifruit)",qte:25}]},
+  {id:3,date:"2024-10-03",produit:"Jus de cerise",volume:10.5,tarif:"Cuve complète",contributeurs:[{client:"Christophe (Vergers & Cie)",qte:15}]},
+  {id:4,date:"2024-11-07",produit:"Jus de kaki",volume:10.5,tarif:"Cuve complète",contributeurs:[{client:"GAEC Épisse",qte:5}]},
 ];
 
 let modalMode = null;
